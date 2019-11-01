@@ -1,5 +1,6 @@
 require "mini_magick"
 require "pry"
+require "rainbow"
 class Converter
   attr_reader :image, :pixels, :brightness_matrix, :ascii_matrix
   def initialize(image_path)
@@ -24,7 +25,7 @@ class Converter
     end
     true
   end
-  
+
   def map_brightness
     @pixels.map do |row|
       row.map do |pixel|
@@ -35,9 +36,11 @@ class Converter
 
   def map_ascii
     chars = "`^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
-    @brightness_matrix.map do |row|
-      row.map do |cell|
-        (chars[cell/4]) * 3
+    @brightness_matrix.each_with_index.map do |row, row_index|
+      pixel_row = @pixels[row_index]
+      row.each_with_index.map do |cell, cell_index|
+        pixel_cell = pixel_row[cell_index]
+        Rainbow((chars[cell/4]) * 3).color(pixel_cell[0], pixel_cell[1], pixel_cell[2])
       end
     end
   end
