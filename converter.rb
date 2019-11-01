@@ -5,9 +5,7 @@ class Converter
   def initialize(image_path)
     @image = MiniMagick::Image.open(image_path)
     puts "Image successfully loaded"
-      @image.resize "300x300"
-
-
+    @image.resize "300x300"
     @pixels = @image.get_pixels
     puts "Pixel map created"
     @brightness_matrix = map_brightness
@@ -26,7 +24,7 @@ class Converter
     end
     true
   end
-
+  
   def map_brightness
     @pixels.map do |row|
       row.map do |pixel|
